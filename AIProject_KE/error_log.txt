@@ -1,0 +1,46 @@
+TF Version: 2.20.0
+Error: Exception encountered when calling Sequential.call().
+
+[1mLayer "functional_4" expects 1 input(s), but it received 2 input tensors. Inputs received: [<KerasTensor shape=(None, 7, 7, 1280), dtype=float32, sparse=False, ragged=False, name=keras_tensor_163>, <KerasTensor shape=(None, 7, 7, 1280), dtype=float32, sparse=False, ragged=False, name=keras_tensor_164>][0m
+
+Arguments received by Sequential.call():
+  ¡E args=(('<KerasTensor shape=(None, 7, 7, 1280), dtype=float32, sparse=False, ragged=False, name=keras_tensor_163>', '<KerasTensor shape=(None, 7, 7, 1280), dtype=float32, sparse=False, ragged=False, name=keras_tensor_164>'),)
+  ¡E kwargs={'mask': ('None', 'None')}
+Traceback (most recent call last):
+  File "d:\AWORKSPACE\Github\Project_20260108\AIProject_KE\app.py", line 120, in load_model_data
+    self.model = load_model(model_path, custom_objects={'DepthwiseConv2D': FixedDepthwiseConv2D}, compile=False)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Users\q1242\anaconda3\envs\py311\Lib\site-packages\keras\src\saving\saving_api.py", line 196, in load_model
+    return legacy_h5_format.load_model_from_hdf5(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Users\q1242\anaconda3\envs\py311\Lib\site-packages\keras\src\legacy\saving\legacy_h5_format.py", line 137, in load_model_from_hdf5
+    model = saving_utils.model_from_config(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Users\q1242\anaconda3\envs\py311\Lib\site-packages\keras\src\legacy\saving\saving_utils.py", line 83, in model_from_config
+    return serialization.deserialize_keras_object(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Users\q1242\anaconda3\envs\py311\Lib\site-packages\keras\src\legacy\saving\serialization.py", line 488, in deserialize_keras_object
+    deserialized_obj = cls.from_config(
+                       ^^^^^^^^^^^^^^^^
+  File "D:\Users\q1242\anaconda3\envs\py311\Lib\site-packages\keras\src\models\sequential.py", line 375, in from_config
+    model.add(layer)
+  File "D:\Users\q1242\anaconda3\envs\py311\Lib\site-packages\keras\src\models\sequential.py", line 122, in add
+    self._maybe_rebuild()
+  File "D:\Users\q1242\anaconda3\envs\py311\Lib\site-packages\keras\src\models\sequential.py", line 149, in _maybe_rebuild
+    self.build(input_shape)
+  File "D:\Users\q1242\anaconda3\envs\py311\Lib\site-packages\keras\src\layers\layer.py", line 232, in build_wrapper
+    original_build_method(*args, **kwargs)
+  File "D:\Users\q1242\anaconda3\envs\py311\Lib\site-packages\keras\src\models\sequential.py", line 195, in build
+    x = layer(x)
+        ^^^^^^^^
+  File "D:\Users\q1242\anaconda3\envs\py311\Lib\site-packages\keras\src\utils\traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "D:\Users\q1242\anaconda3\envs\py311\Lib\site-packages\keras\src\layers\input_spec.py", line 161, in assert_input_compatibility
+    raise ValueError(
+ValueError: Exception encountered when calling Sequential.call().
+
+[1mLayer "functional_4" expects 1 input(s), but it received 2 input tensors. Inputs received: [<KerasTensor shape=(None, 7, 7, 1280), dtype=float32, sparse=False, ragged=False, name=keras_tensor_163>, <KerasTensor shape=(None, 7, 7, 1280), dtype=float32, sparse=False, ragged=False, name=keras_tensor_164>][0m
+
+Arguments received by Sequential.call():
+  ¡E args=(('<KerasTensor shape=(None, 7, 7, 1280), dtype=float32, sparse=False, ragged=False, name=keras_tensor_163>', '<KerasTensor shape=(None, 7, 7, 1280), dtype=float32, sparse=False, ragged=False, name=keras_tensor_164>'),)
+  ¡E kwargs={'mask': ('None', 'None')}
