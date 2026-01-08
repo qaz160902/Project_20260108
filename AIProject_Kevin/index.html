@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星空下的貓咪咖啡館</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0c0a1a;
+            color: #f0f0f0;
+        }
+
+        /* 上半部：星空背景區域 */
+        .sky-section {
+            position: relative;
+            height: 70vh;
+            background: linear-gradient(to bottom, #020111 0%, #191970 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        /* 標題樣式 */
+        .title {
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 0 0 10px #fff, 0 0 20px #ff00de, 0 0 30px #ff00de;
+            z-index: 10;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* --- CSS 貓貓與咖啡杯 --- */
+        .css-art-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            z-index: 10;
+        }
+
+        /* 貓頭 */
+        .cat-head {
+            position: absolute;
+            width: 120px;
+            height: 110px;
+            background-color: #111; /* 黑貓 */
+            border-radius: 50% 50% 45% 45%;
+            top: 20px;
+            left: 40px;
+            z-index: 2;
+        }
+
+        /* 耳朵 */
+        .ear {
+            position: absolute;
+            top: -20px;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 40px solid #111;
+        }
+        .ear.left { left: 10px; transform: rotate(-15deg); }
+        .ear.right { right: 10px; transform: rotate(15deg); }
+
+        /* 眼睛 (眨眼動畫) */
+        .eye {
+            position: absolute;
+            top: 40px;
+            width: 12px;
+            height: 12px;
+            background-color: #ffd700; /* 金色眼睛 */
+            border-radius: 50%;
+            animation: blink 4s infinite;
+        }
+        .eye.left { left: 30px; }
+        .eye.right { right: 30px; }
+
+        @keyframes blink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+        }
+
+        /* 身體 */
+        .cat-body {
+            position: absolute;
+            width: 140px;
+            height: 100px;
+            background-color: #111;
+            bottom: 0;
+            left: 30px;
+            border-radius: 50px 50px 0 0;
+            z-index: 1;
+        }
+
+        /* 手 (握杯子) */
+        .paw {
+            position: absolute;
+            width: 30px;
+            height: 15px;
+            background-color: #111;
+            border-radius: 10px;
+            z-index: 4;
+        }
+        .paw.left { top: 110px; left: 55px; transform: rotate(20deg); }
+        .paw.right { top: 110px; left: 115px; transform: rotate(-20deg); }
+
+        /* 咖啡杯 */
+        .cup {
+            position: absolute;
+            width: 60px;
+            height: 50px;
+            background-color: #fff;
+            top: 100px;
+            left: 70px;
+            border-radius: 5px 5px 25px 25px;
+            z-index: 3;
+            box-shadow: inset -5px 0 5px rgba(0,0,0,0.1);
+        }
+        /* 杯耳 */
+        .cup::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 20px;
+            border: 4px solid #fff;
+            border-radius: 50%;
+            right: -10px;
+            top: 10px;
+            z-index: 2;
+        }
+
+        /* 熱氣動畫 */
+        .steam {
+            position: absolute;
+            width: 8px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 10px;
+            top: 80px;
+            z-index: 0;
+            animation: rise 2s infinite ease-out;
+            opacity: 0;
+        }
+        .steam:nth-child(1) { left: 85px; animation-delay: 0s; }
+        .steam:nth-child(2) { left: 95px; animation-delay: 0.5s; height: 15px;}
+        .steam:nth-child(3) { left: 105px; animation-delay: 1s; }
+
+        @keyframes rise {
+            0% { top: 80px; opacity: 0; transform: translateY(0); }
+            50% { opacity: 0.6; }
+            100% { top: 50px; opacity: 0; transform: translateY(-10px); }
+        }
+
+        /* 星星動畫 */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            opacity: var(--opacity);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: var(--opacity); transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* 月亮 */
+        .moon {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 80px;
+            height: 80px;
+            background: #fefcd7;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #fefcd7, 0 0 60px #fefcd7;
+            opacity: 0.9;
+        }
+
+        /* 下半部：文字內容區域 */
+        .content-section {
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #0c0a1a;
+            min-height: 30vh;
+        }
+
+        .content-text {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #a8a8b3;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 上半部：星空 + CSS 貓貓 -->
+    <div class="sky-section" id="sky">
+        <div class="moon"></div>
+        <h1 class="title">Starry Night Cafe</h1>
+        
+        <!-- CSS 繪製的貓貓 -->
+        <div class="css-art-container">
+            <div class="steam"></div>
+            <div class="steam"></div>
+            <div class="steam"></div>
+            
+            <div class="cat-head">
+                <div class="ear left"></div>
+                <div class="ear right"></div>
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+            </div>
+            <div class="cat-body"></div>
+            <div class="cup"></div>
+            <div class="paw left"></div>
+            <div class="paw right"></div>
+        </div>
+
+    </div>
+
+    <!-- 下半部：文字 -->
+    <div class="content-section">
+        <p class="content-text">
+            夜深了，城市安靜了下來。<br>
+            在這一片璀璨的星空下，來一杯熱騰騰的咖啡，<br>
+            享受屬於自己（和貓貓）的寧靜時光。
+        </p>
+    </div>
+
+    <script>
+        // 生成隨機星星
+        const sky = document.getElementById('sky');
+        const starCount = 150;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            // 隨機位置
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            
+            // 隨機大小
+            const size = Math.random() * 3;
+            
+            // 隨機動畫時間和透明度
+            const duration = 2 + Math.random() * 3 + 's';
+            const opacity = 0.3 + Math.random() * 0.7;
+
+            star.style.left = x + '%';
+            star.style.top = y + '%';
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.setProperty('--duration', duration);
+            star.style.setProperty('--opacity', opacity);
+
+            sky.appendChild(star);
+        }
+    </script>
+</body>
+</html>
