@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貓貓夜空咖啡館 (Cats, Coffee & Night Sky)</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(to bottom, #020111 10%, #3a3a52 100%);
+            --moon-color: #fdfcf0;
+            --moon-glow: rgba(255, 255, 255, 0.2);
+            --star-color: #ffffff;
+            --roof-color: #1a1a2e;
+            --cat-color: #000000;
+            --coffee-mug: #e0e0e0;
+            --steam-color: rgba(255, 255, 255, 0.4);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            color: white;
+        }
+
+        /* Night Sky & Stars */
+        .sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: var(--star-color);
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Moon */
+        .moon {
+            position: absolute;
+            top: 10%;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            background: var(--moon-color);
+            border-radius: 50%;
+            box-shadow: 0 0 40px var(--moon-glow), 0 0 10px #ffffe0;
+            z-index: 2;
+        }
+
+        /* Scene Container */
+        .scene {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 10;
+        }
+
+        /* Roof/Ledge */
+        .roof {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 150px;
+            background: #2a2a40; /* Lighter roof for contrast */
+            /* Creating a slight angle or tiles look */
+            background-image: linear-gradient(to right, transparent 50%, rgba(0,0,0,0.3) 50%);
+            background-size: 40px 100%;
+            border-top: 5px solid #4a4a6a; /* Lighter edge */
+            box-shadow: 0 -10px 20px rgba(0,0,0,0.5);
+        }
+
+        /* Cats & Coffee Wrapper */
+        .characters {
+            position: relative;
+            bottom: 145px; /* Sit on top of the roof */
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+        }
+
+        /* SVG Cats */
+        .cat-svg {
+            width: 120px;
+            height: auto;
+            fill: #111; /* Slightly lighter than pure black */
+            /* Rim light effect to separate from background */
+            filter: drop-shadow(0 0 2px rgba(200, 200, 255, 0.6)) drop-shadow(2px -2px 1px rgba(255, 255, 255, 0.3));
+        }
+
+        .tail {
+            transform-origin: bottom center;
+            animation: tail-sway 4s infinite ease-in-out;
+            stroke: #111; /* Match body fill */
+        }
+
+        @keyframes tail-sway {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        /* Coffee Mug */
+        .coffee-wrapper {
+            position: relative;
+            margin-bottom: 0px;
+            margin-left: -10px;
+        }
+
+        .mug {
+            width: 25px;
+            height: 30px;
+            background: var(--coffee-mug);
+            border-radius: 0 0 5px 5px;
+            position: relative;
+        }
+        .mug:after { /* Handle */
+            content: '';
+            position: absolute;
+            top: 5px;
+            right: -8px;
+            width: 8px;
+            height: 15px;
+            border: 3px solid var(--coffee-mug);
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* Steam Animation */
+        .steam {
+            position: absolute;
+            bottom: 35px;
+            left: 5px;
+            width: 6px;
+            height: 15px;
+            background: var(--steam-color);
+            border-radius: 10px;
+            filter: blur(3px);
+            animation: steam-rise 2s infinite linear;
+            opacity: 0;
+        }
+        .steam:nth-child(2) { left: 14px; animation-delay: 0.5s; height: 10px; }
+        .steam:nth-child(3) { left: 9px; animation-delay: 1s; height: 12px; }
+
+        @keyframes steam-rise {
+            0% { transform: translateY(0) scaleX(1); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-20px) scaleX(1.5); opacity: 0; }
+        }
+
+        /* Message */
+        .message {
+            position: absolute;
+            top: 20%;
+            width: 100%;
+            text-align: center;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            opacity: 0;
+            animation: fade-in 3s forwards 1s;
+        }
+
+        @keyframes fade-in {
+            to { opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sky" id="sky">
+        <!-- Stars will be generated by JS -->
+    </div>
+
+    <div class="moon"></div>
+
+    <div class="message">
+        Tonight's vibe: Relax & Coffee
+    </div>
+
+    <div class="scene">
+        <div class="roof"></div>
+        
+        <div class="characters">
+            <!-- Cat 1 -->
+            <svg class="cat-svg" viewBox="0 0 100 100">
+                <path class="tail" d="M85 80 Q95 60 90 50 T85 30" stroke-width="6" fill="none" />
+                <!-- Body -->
+                <path d="M20 90 L80 90 Q90 50 50 50 Q10 50 20 90 Z" />
+                <!-- Head -->
+                <circle cx="50" cy="40" r="20" />
+                <!-- Ears (Overlapping head) -->
+                <path d="M32 30 L25 10 L48 30 Z" /> <!-- Ear L -->
+                <path d="M52 30 L75 10 L68 30 Z" /> <!-- Ear R -->
+            </svg>
+
+            <!-- Coffee Mug -->
+            <div class="coffee-wrapper">
+                <div class="steam"></div>
+                <div class="steam"></div>
+                <div class="steam"></div>
+                <div class="mug"></div>
+            </div>
+
+            <!-- Cat 2 (Smaller, looking up) -->
+            <svg class="cat-svg" viewBox="0 0 100 100" style="width: 100px; transform: scaleX(-1);">
+                <path class="tail" d="M85 80 Q95 60 90 50 T85 30" stroke-width="6" fill="none" style="animation-duration: 3s;"/>
+                <!-- Body -->
+                <path d="M25 90 L75 90 Q85 55 50 55 Q15 55 25 90 Z" />
+                <!-- Head -->
+                <circle cx="50" cy="45" r="18" />
+                <!-- Ears -->
+                <path d="M34 35 L28 15 L48 35 Z" /> <!-- Ear L -->
+                <path d="M52 35 L72 15 L66 35 Z" /> <!-- Ear R -->
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        // Generate Stars
+        const sky = document.getElementById('sky');
+        const starCount = 100;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            // Random position
+            const x = Math.random() * 100;
+            const y = Math.random() * 80; // Keep stars mostly above
+            
+            // Random size
+            const size = Math.random() * 2 + 1;
+            
+            // Random delay
+            const delay = Math.random() * 2;
+
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.animationDelay = `${delay}s`;
+
+            sky.appendChild(star);
+        }
+    </script>
+</body>
+</html>
